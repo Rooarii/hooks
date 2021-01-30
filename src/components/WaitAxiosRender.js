@@ -1,5 +1,4 @@
 import React, { useState, useEffect, Fragment } from "react";
-import { Dimmer, Loader, Image, Segment } from 'semantic-ui-react'
 import axios from "axios";
 // import Loading from './Loading'
 import { LoopCircleLoading} from 'react-loadingg';
@@ -9,7 +8,7 @@ export default function App() {
   const [pokemon, setPokemon] = useState(
     {
       name:"",
-      sprites:[{front_default:""}]
+      sprites:{}
     }
     );
 
@@ -19,14 +18,18 @@ export default function App() {
 
   useEffect(() => {
     console.debug("After mount! Let's load data from API...");
-    axios.get("https://pokeapi.co/api/v2/pokemon/1").then(response => {
+    axios.get("https://pokeapi.co/api/v2/pokemon/9").then(response => {
       console.debug("Hurray! We have Pokemon data, let's update our state");
       console.debug("Calling setPokemon...");
-      setPokemon(response.data);
+      console.log(response.data);
+      const { name, sprites } = response.data;
+      setPokemon({name, sprites});
       console.debug("Calling setLoading...");
       setLoading(false);
     });
   }, []);
+
+  console.log(pokemon)
 
   if (isLoading) {
     console.debug("renders: Loading...");
